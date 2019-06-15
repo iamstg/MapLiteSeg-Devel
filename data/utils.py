@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import os
 from PIL import Image
 from natsort import natsorted
@@ -155,7 +159,9 @@ def enet_weighing(dataloader, num_classes, c=1.02):
 		total += flat_label.size
 
 	# Compute propensity score and then the weights for each class
+	print("Class count: ", class_count)
 	propensity_score = class_count / total
+	print("Propensity score: ", propensity_score)
 	class_weights = 1 / (np.log(c + propensity_score))
 
 	return class_weights

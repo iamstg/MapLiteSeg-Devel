@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import os
 from collections import OrderedDict
 import torch.utils.data as data
@@ -52,8 +56,8 @@ class MapLite(data.Dataset):
 		self.data = []
 		self.labels = []
 		for img_id in image_list:
-			self.data.append(os.path.join(self.root_dir, 'seg_data', str(img_id).zfill(4) + '.png'))
-			self.labels.append(os.path.join(self.root_dir, 'seg_label', str(img_id).zfill(4) + '.png'))
+			self.data.append(os.path.join(self.root_dir, 'seg_data', str(img_id)))
+			self.labels.append(os.path.join(self.root_dir, 'seg_label', str(img_id)))
 			self.length += 1
 
 

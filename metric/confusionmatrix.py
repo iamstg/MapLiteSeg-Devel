@@ -1,6 +1,9 @@
+from __future__ import division
+from __future__ import print_function
+
 import numpy as np
 import torch
-from metric import metric
+import metric
 
 
 class ConfusionMatrix(metric.Metric):
@@ -17,7 +20,7 @@ class ConfusionMatrix(metric.Metric):
     """
 
     def __init__(self, num_classes, normalized=False):
-        super().__init__()
+        super(ConfusionMatrix, self).__init__()
 
         self.conf = np.ndarray((num_classes, num_classes), dtype=np.int32)
         self.normalized = normalized

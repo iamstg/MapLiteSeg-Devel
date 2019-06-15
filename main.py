@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import os
 
 import numpy as np
@@ -17,6 +21,9 @@ from metric.iou import IoU
 from args import get_arguments
 from data.utils import enet_weighing, median_freq_balancing
 import utils
+
+# Import the dataset
+from data import MapLite as dataset
 
 # Get the arguments
 args = get_arguments()
@@ -94,7 +101,7 @@ def load_dataset(dataset):
 		utils.imshow_batch(images, color_labels)
 
 	# Get class weights from the selected weighing technique
-	print("\nWeighing technique:", args.weighing)
+	print("Weighing technique:", args.weighing)
 	# If a class weight file is provided, try loading weights from in there
 	class_weights = None
 	if args.class_weights_file:
@@ -117,6 +124,7 @@ def load_dataset(dataset):
 	if class_weights is not None:
 		class_weights = torch.from_numpy(class_weights).float().to(device)
 		# Set the weight of the unlabeled class to 0
+		print("Ignoring unlabeled class: ", args.ignore_unlabeled)
 		if args.ignore_unlabeled:
 			ignore_index = list(class_encoding).index('unlabeled')
 			class_weights[ignore_index] = 0
@@ -170,7 +178,7 @@ def train(train_loader, val_loader, class_weights, class_encoding):
 		best_miou = 0
 
 	# Start Training
-	print()
+	print("............")
 	train = Train(model, train_loader, optimizer, criterion, metric, device)
 	val = Test(model, val_loader, criterion, metric, device)
 	for epoch in range(start_epoch, args.epochs):
@@ -196,7 +204,7 @@ def train(train_loader, val_loader, class_weights, class_encoding):
 					print("{0}: {1:.4f}".format(key, class_iou))
 
 			# Save the model if it's the best thus far
-			if miou > best_miou:
+			if miou >= best_miou:
 				print("\nBest model thus far. Saving...\n")
 				best_miou = miou
 				utils.save_checkpoint(model, optimizer, epoch + 1, best_miou,
@@ -275,9 +283,6 @@ if __name__ == '__main__':
 	assert os.path.isdir(
 		args.save_dir), "The directory \"{0}\" doesn't exist.".format(
 			args.save_dir)
-
-	# Import the dataset
-	from data import MapLite as dataset
 
 	loaders, w_class, class_encoding = load_dataset(dataset)
 	train_loader, val_loader, test_loader = loaders

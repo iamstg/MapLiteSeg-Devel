@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 from argparse import ArgumentParser
 
 
@@ -84,43 +88,43 @@ def get_arguments():
 	# Dataset
 	parser.add_argument(
 		"--dataset",
-		choices=['scannet'],
-		default='scannet',
-		help="Dataset to use. Default: scannet")
+		choices=['KITTI Tracking', 'SYNTHIA'],
+		default='KITTI Tracking',
+		help="Dataset to use. Default: KITTI Tracking")
 	parser.add_argument(
 		"--dataset-dir",
 		type=str,
-		default="data/ENet",
+		default="data/KITTI_Tracking",
 		help="Path to the root directory of the selected dataset. "
-		"Default: data/ENet")
+		"Default: data/KITTI_Tracking")
 	parser.add_argument(
 		"--trainFile",
 		type=str,
-		default="data/ENet/train.txt",
+		default="cache/train.txt",
 		help="Path to txt file containing a list of training scenes."
-		"Default: data/ENet/train.txt")
+		"Default: cache/train.txt")
 	parser.add_argument(
 		"--valFile",
 		type=str,
-		default="data/ENet/val.txt",
+		default="cache/test.txt",
 		help="Path to txt file containing a list of validation scenes."
-		"Default: data/ENet/val.txt")
+		"Default: cache/test.txt")
 	parser.add_argument(
 		"--testFile",
 		type=str,
-		default="data/ENet/test.txt",
+		default="cache/test.txt",
 		help="Path to txt file containing a list of testing scenes."
-		"Default: data/ENet/test.txt")
+		"Default: cache/test.txt")
 	parser.add_argument(
 		"--height",
 		type=int,
-		default=240,
-		help="The image height. Default: 240")
+		default=200,
+		help="The image height. Default: 200")
 	parser.add_argument(
 		"--width",
 		type=int,
-		default=240,
-		help="The image width. Default: 320")
+		default=200,
+		help="The image width. Default: 200")
 	parser.add_argument(
 		"--weighing",
 		choices=['enet', 'mfb', 'none'],

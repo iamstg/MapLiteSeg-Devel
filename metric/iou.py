@@ -1,7 +1,10 @@
+from __future__ import division
+from __future__ import print_function
+
 import torch
 import numpy as np
-from metric import metric
-from metric.confusionmatrix import ConfusionMatrix
+import metric
+from confusionmatrix import ConfusionMatrix
 
 
 class IoU(metric.Metric):
@@ -23,7 +26,7 @@ class IoU(metric.Metric):
 	"""
 
 	def __init__(self, num_classes, normalized=False, ignore_index=None):
-		super().__init__()
+		super(IoU, self).__init__()
 		self.conf_metric = ConfusionMatrix(num_classes, normalized)
 
 		if ignore_index is None:
